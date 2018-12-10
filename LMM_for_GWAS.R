@@ -1,4 +1,3 @@
-setwd("C:/Users/wangn/Downloads/zuk_et_al-master/data")
 library(data.table)
 library(qqman)
 library(foreach)
@@ -36,11 +35,13 @@ n = 10^6   # just a few pairs to test
 sample1 = sample(1:ncol(X), n, replace = T)
 sample2 = sample(1:ncol(X), n, replace = T)
 
+# linear mixed model result 
 I = diag(nrow(Ka))
 Vadditive = 0.689431*Ka + 0.599742*I
 Vinv.additive = solve(Vadditive)
 residual.additive = Vinv.additive %*% y
 
+# linear mixed model score tests for interactions between two SNPs
 v <- foreach(i=1:n) %dopar%{
   column = scale(X[,sample1[i]]*X[,sample2[i]])[,1]
   (column %*% residual.additive)**2/(column %*% Vinv.additive %*% column)
@@ -63,11 +64,12 @@ pval.grm.add = pchisq(v, df=1, lower.tail = F)
 qq(pval.grm.add, main="Single SNP LMM with additive GRM (Linear Kernel)")
 # compare with uniform random
 qq(runif(200))
-snp_name=snp_name=names(data)[3:ncol(data)]
-temp=order(pval.grm.add)[1:5]
-snp_name[temp]
-pval.grm.add[temp]
 
+
+
+
+
+# Within pathway model linear mixed models：
 beta=rep(0,82597)
 for(j in 1:82597){
   beta[j]<-(0.689431/82597)*X[,j]%*%residual.additive
@@ -89,6 +91,7 @@ qq(pval, main="WPM LMM with additive GRM (Linear Kernel)")
 
 
 
+# Within pathway model linear mixed models based on principle components
 
 v<-foreach(i=1:338) %dopar%{
   index<-which(snp2set[,i]>0)
@@ -114,9 +117,8 @@ qq(pval, main="WPM LMM with first principle component")
 
 
 
-
+# Between pathway model linear mixed models based on principle components
 cb<-combn(1:338,2)
-
 
 v<-foreach(i = 1:ncol(cb)) %dopar% {
   snp2set<-as.matrix(snp2set)
@@ -149,37 +151,4 @@ qq(pval, main=" BPM LMM with additive GRM (Linear Kernel)")
 
 
 
-v<-foreach(i = 1:338) %dopar% {
-  snp2set<-as.matrix(snp2set)
-  index1<-which(snp2set[,i]>0)
-  p1<-scale(X[,index1]%*% beta[index1])[,1]
-  
-  pp<-scale(p1)[,1]
-  #p1<-scale(X[,index]%*% beta[index])[,1]
-  (pp %*% residual.additive)**2/(pp %*% Vinv.additive %*% pp)
-}
 
-v<-unlist(v)
-pval = pchisq(v, df=1, lower.tail = F)
-qq(pval, main=" BMP LMM with additive GRM (Linear Kernel)")
-
-
-
-
-h=0.689431
-e<-0.599742
-h2 = h / (h+e)
-lambda<-(1/h2)-1
-library(glmnet)
-
-model = glmnet(X,y, lambda=lambda, alpha = 0)
-beta = model$beta[,1]
-
-
-da
-MODEL<-lm.ridge(y~.,as.data.frame(X),lambda = lambda)
-model<-linearRidge(y~., as.data.frame(X),lambda=lambda)
-
-
-
-detv<-det(Vadditive)
