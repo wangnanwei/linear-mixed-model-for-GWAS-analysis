@@ -9,5 +9,5 @@ apply this method to analysis our generic data.
 # Installing
 Just download all the files in your local pc, and run the code LMM_for_GWAS.R. We use a yeast data, which is included,to show the result.
 
-#Running the tests
+# Running the tests
  You can run the code LMM_for_GWAS.R, and you will see some QQ plots. Some plots are also included in this repository.
