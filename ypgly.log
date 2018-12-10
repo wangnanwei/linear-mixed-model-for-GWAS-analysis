@@ -1,0 +1,26 @@
+PLINK v1.90p 64-bit (9 Mar 2018)
+Options in effect:
+  --allow-no-sex
+  --bfile gwas/gwas_YPGLYCEROL
+  --out gwas/gwas_YPGLYCEROL
+  --recode A
+
+Hostname: sc
+Working directory: /home/hheydarii/gcta
+Start time: Mon Aug 27 03:16:09 2018
+
+Random number seed: 1535339769
+50311 MB RAM detected; reserving 25155 MB for main workspace.
+82597 variants loaded from .bim file.
+965 people (0 males, 0 females, 965 ambiguous) loaded from .fam.
+Ambiguous sex IDs written to gwas/gwas_YPGLYCEROL.nosex .
+965 phenotype values loaded from .fam.
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 965 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Total genotyping rate is 0.999135.
+82597 variants and 965 people pass filters and QC.
+Phenotype data is quantitative.
+--recode A to gwas/gwas_YPGLYCEROL.raw ... done.
+
+End time: Mon Aug 27 03:16:10 2018
